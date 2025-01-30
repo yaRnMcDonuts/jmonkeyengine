@@ -24,7 +24,7 @@ MaterialDef PBR Lighting {
 
         // Metallic map
         Texture2D MetallicMap -LINEAR
-        
+
         // Roughness Map
         Texture2D RoughnessMap -LINEAR
 
@@ -33,7 +33,7 @@ MaterialDef PBR Lighting {
         // g: Roughness
         // b: Metallic
         Texture2D MetallicRoughnessMap -LINEAR
-        
+
         // Texture of the emissive parts of the material
         Texture2D EmissiveMap
 
@@ -98,7 +98,7 @@ MaterialDef PBR Lighting {
         //pointLights
         Texture2D ShadowMap4
         Texture2D ShadowMap5
-        
+
         Float ShadowIntensity
         Vector4 Splits
         Vector2 FadeInfo
@@ -124,7 +124,7 @@ MaterialDef PBR Lighting {
         FloatArray MorphWeights
         Int NumberOfMorphTargets
         Int NumberOfTargetsBuffers
-                
+
         // For instancing
         Boolean UseInstancing
 
@@ -132,13 +132,27 @@ MaterialDef PBR Lighting {
         Boolean UseVertexColor
 
         Boolean BackfaceShadows : false
+
+        Boolean UseVertexColorsAsSunIntensity
+        Float StaticSunIntensity
+        Boolean BrightenIndoorShadows
+
+        Int DebugValuesMode
+            // debugs the final value of the selected layer as a color output:         
+            // Layers:
+            //   0 - albedo (unshaded)
+            //   1 - normals
+            //   2 - roughness
+            //   3 - metallic
+            //   4 - ao
+            //   5 - emissive
     }
 
     Technique {
         LightMode SinglePassAndImageBased
-        
-        VertexShader GLSL300 GLSL150 GLSL110:   Common/MatDefs/Light/PBRLighting.vert
-        FragmentShader GLSL300 GLSL150 GLSL110: Common/MatDefs/Light/PBRLighting.frag
+
+        VertexShader GLSL300 GLSL150 GLSL110:   Common/MatDefs/Light/modular/PBRLighting.vert
+        FragmentShader GLSL300 GLSL150 GLSL110: Common/MatDefs/Light/modular/PBRLighting.frag
 
         WorldParameters {
             WorldViewProjectionMatrix
@@ -182,6 +196,10 @@ MaterialDef PBR Lighting {
             NUM_MORPH_TARGETS: NumberOfMorphTargets
             NUM_TARGETS_BUFFERS: NumberOfTargetsBuffers
             HORIZON_FADE: HorizonFade
+            USE_VERTEX_COLORS_AS_SUN_INTENSITY : UseVertexColorsAsSunIntensity
+            STATIC_SUN_INTENSITY : StaticSunIntensity
+            BRIGHTEN_INDOOR_SHADOWS : BrightenIndoorShadows
+            DEBUG_VALUES_MODE : DebugValuesMode
         }
     }
 
